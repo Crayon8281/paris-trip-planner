@@ -4,306 +4,428 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מתכנן הטיולים שלך לפריז</title>
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --paris-blue: #002395;
-            --paris-red: #ED2939;
-            --paris-gold: #D4AF37;
-            --light-gray: #f4f4f9;
-            --selected-bg: #e8f0ff;
-            --selected-border: #002395;
+            --black:   #0F0F0F;
+            --dark:    #1A1A1A;
+            --dark2:   #252525;
+            --yellow:  #FFD100;
+            --orange:  #FF6B00;
+            --white:   #FFFFFF;
+            --gray:    #999;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Assistant', sans-serif;
-            background: linear-gradient(135deg, #002395 0%, #1a3a8f 50%, #ED2939 100%);
+            background: var(--black);
             min-height: 100vh;
-            margin: 0;
-            padding: 20px 15px 40px;
-            color: #333;
+            color: var(--white);
+            padding-bottom: 40px;
         }
 
-        .container {
+        /* ── Header ── */
+        .header {
+            background: var(--black);
+            padding: 32px 24px 24px;
+            text-align: center;
+            border-bottom: 3px solid var(--yellow);
+        }
+
+        .header-flag { font-size: 2.8rem; line-height: 1; margin-bottom: 6px; }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--yellow);
+            letter-spacing: -0.5px;
+        }
+
+        .header p { color: var(--gray); font-size: 0.95rem; margin-top: 6px; }
+
+        /* Progress */
+        .progress-wrap {
             max-width: 620px;
             margin: 0 auto;
-            background: white;
-            padding: 0;
+            padding: 14px 24px 0;
+        }
+
+        .progress-track {
+            background: var(--dark2);
             border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            height: 7px;
             overflow: hidden;
         }
 
-        .header {
-            background: linear-gradient(135deg, #002395, #1a3a8f);
-            color: white;
-            padding: 30px 25px 20px;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--yellow));
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .progress-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 6px;
             text-align: center;
         }
 
-        .header h1 { margin: 0 0 8px; font-size: 1.9rem; font-weight: 700; }
-        .header p  { margin: 0; font-size: 1rem; opacity: 0.88; font-weight: 300; }
-
-        .progress-bar-wrap {
-            background: rgba(255,255,255,0.15);
-            border-radius: 20px;
-            height: 8px;
-            margin-top: 18px;
-            overflow: hidden;
+        /* ── Container ── */
+        .container {
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 24px 18px;
         }
-        .progress-bar {
-            height: 100%;
-            background: var(--paris-gold);
-            border-radius: 20px;
-            transition: width 0.4s ease;
-            width: 0%;
-        }
-        .progress-label { font-size: 0.82rem; margin-top: 6px; opacity: 0.85; }
 
-        .body-wrap { padding: 22px 20px; }
-
-        .user-info-grid {
+        /* ── Form fields ── */
+        .user-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 22px;
+            margin-bottom: 28px;
         }
 
-        .field-group { display: flex; flex-direction: column; gap: 5px; }
-        .field-group.full { grid-column: 1 / -1; }
+        .field { display: flex; flex-direction: column; gap: 5px; }
+        .field.full { grid-column: 1 / -1; }
 
-        .field-group label { font-weight: 600; font-size: 0.88rem; color: var(--paris-blue); }
+        .field label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-        .field-group input,
-        .field-group select {
-            padding: 10px 12px;
-            border: 1.5px solid #ddd;
+        .field input,
+        .field select {
+            padding: 11px 14px;
+            background: var(--dark2);
+            border: 1.5px solid #333;
             border-radius: 8px;
+            color: var(--white);
             font-family: 'Assistant', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.97rem;
             transition: border-color 0.2s;
-            background: white;
         }
-        .field-group input:focus,
-        .field-group select:focus {
+
+        .field input::placeholder { color: #555; }
+
+        .field input:focus,
+        .field select:focus {
             outline: none;
-            border-color: var(--paris-blue);
-            box-shadow: 0 0 0 3px rgba(0,35,149,0.1);
+            border-color: var(--orange);
         }
 
-        .category {
-            margin-bottom: 22px;
-            border: 1.5px solid #eee;
-            border-radius: 12px;
-            overflow: hidden;
-        }
+        .field select option { background: var(--dark2); }
 
-        .category-header {
+        /* ── Category block ── */
+        .category { margin-bottom: 28px; }
+
+        .cat-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 15px;
-            background: #f8f9ff;
-            border-bottom: 1.5px solid #eee;
+            margin-bottom: 12px;
         }
 
-        .category-title { font-weight: 700; font-size: 1.05rem; color: var(--paris-blue); }
-
-        .select-all-btn {
-            font-size: 0.78rem;
-            color: var(--paris-red);
-            cursor: pointer;
-            border: 1px solid var(--paris-red);
-            background: white;
-            border-radius: 20px;
-            padding: 3px 10px;
-            font-family: 'Assistant', sans-serif;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .select-all-btn:hover { background: var(--paris-red); color: white; }
-
-        .items-wrap { padding: 10px 12px; }
-
-        .item {
+        .cat-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--yellow);
             display: flex;
             align-items: center;
-            background: #fff;
-            margin-bottom: 7px;
-            padding: 10px 12px;
-            border: 1.5px solid #e0e0e0;
-            border-radius: 9px;
+            gap: 7px;
+        }
+
+        .cat-title span { font-size: 1.3rem; }
+
+        .select-all-btn {
+            font-size: 0.75rem;
+            color: var(--orange);
+            background: transparent;
+            border: 1px solid var(--orange);
+            border-radius: 20px;
+            padding: 3px 12px;
+            cursor: pointer;
+            font-family: 'Assistant', sans-serif;
+            font-weight: 700;
             transition: all 0.2s;
+        }
+
+        .select-all-btn:hover { background: var(--orange); color: var(--white); }
+
+        /* ── Cards grid ── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .place-card {
+            background: var(--dark2);
+            border-radius: 12px;
+            overflow: hidden;
             cursor: pointer;
+            border: 2.5px solid transparent;
+            transition: border-color 0.2s, transform 0.15s;
             user-select: none;
-        }
-        .item:last-child { margin-bottom: 0; }
-        .item:hover { border-color: var(--paris-blue); background: #f0f4ff; }
-        .item.selected {
-            background: var(--selected-bg);
-            border-color: var(--selected-border);
-            box-shadow: 0 0 0 2px rgba(0,35,149,0.12);
+            position: relative;
         }
 
-        .item input[type="checkbox"] {
-            width: 18px; height: 18px;
-            margin-left: 12px;
-            flex-shrink: 0;
-            accent-color: var(--paris-blue);
-            cursor: pointer;
-        }
-        .item label { cursor: pointer; flex: 1; font-size: 0.97rem; }
-        .item .check-icon { color: var(--paris-blue); font-size: 1rem; opacity: 0; transition: opacity 0.2s; margin-right: 4px; }
-        .item.selected .check-icon { opacity: 1; }
+        .place-card:hover { border-color: #444; transform: translateY(-2px); }
 
-        .section-divider { border: none; border-top: 2px dashed #eee; margin: 24px 0 18px; }
+        .place-card.selected {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 1px var(--orange), 0 4px 16px rgba(255,107,0,0.25);
+        }
+
+        /* Image area */
+        .card-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 130px;
+            background: linear-gradient(135deg, #2a2a2a, #333);
+            overflow: hidden;
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.35s;
+        }
+
+        .place-card:hover .card-img-wrap img { transform: scale(1.05); }
+
+        /* Gradient overlay always */
+        .card-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%);
+        }
+
+        /* Selected overlay */
+        .card-check {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 28px;
+            height: 28px;
+            background: var(--orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: white;
+            font-weight: 800;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.2s, transform 0.2s;
+            z-index: 2;
+        }
+
+        .place-card.selected .card-check {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* img fallback */
+        .card-img-wrap.no-img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        /* Name bar */
+        .card-name {
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--white);
+            line-height: 1.3;
+        }
+
+        .place-card.selected .card-name { color: var(--yellow); }
+
+        /* hidden checkbox */
+        .place-card input[type="checkbox"] { display: none; }
+
+        /* ── Divider ── */
+        .divider {
+            border: none;
+            border-top: 1px solid #2a2a2a;
+            margin: 28px 0 22px;
+        }
+
+        /* ── Textarea ── */
+        .special-req label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 8px;
+        }
 
         .special-req textarea {
             width: 100%;
-            padding: 10px 12px;
-            border: 1.5px solid #ddd;
+            padding: 12px 14px;
+            background: var(--dark2);
+            border: 1.5px solid #333;
             border-radius: 8px;
+            color: var(--white);
             font-family: 'Assistant', sans-serif;
             font-size: 0.95rem;
             resize: vertical;
-            min-height: 70px;
+            min-height: 80px;
             transition: border-color 0.2s;
         }
-        .special-req textarea:focus {
-            outline: none;
-            border-color: var(--paris-blue);
-            box-shadow: 0 0 0 3px rgba(0,35,149,0.1);
-        }
-        .special-req label { font-weight: 600; font-size: 0.88rem; color: var(--paris-blue); display: block; margin-bottom: 6px; }
 
+        .special-req textarea::placeholder { color: #555; }
+        .special-req textarea:focus { outline: none; border-color: var(--orange); }
+
+        /* ── Summary badge ── */
         .summary-badge {
-            background: #f0f4ff;
-            border: 1.5px solid var(--paris-blue);
+            margin: 20px 0 16px;
+            padding: 13px 18px;
+            background: var(--dark2);
+            border: 1.5px solid var(--yellow);
             border-radius: 10px;
-            padding: 12px 16px;
-            margin-bottom: 18px;
+            color: var(--yellow);
+            font-weight: 700;
             font-size: 0.92rem;
-            color: var(--paris-blue);
-            font-weight: 600;
             text-align: center;
             transition: all 0.3s;
         }
 
-        .footer-btn {
+        /* ── Send button ── */
+        .send-btn {
+            width: 100%;
+            padding: 17px;
             background: #25D366;
             color: white;
             border: none;
-            width: 100%;
-            padding: 16px;
-            font-size: 1.1rem;
-            font-weight: 700;
             border-radius: 12px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(37,211,102,0.35);
-            transition: all 0.25s;
             font-family: 'Assistant', sans-serif;
+            font-size: 1.12rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(37,211,102,0.3);
+            transition: all 0.25s;
             letter-spacing: 0.3px;
         }
-        .footer-btn:hover { background: #128C7E; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(37,211,102,0.45); }
-        .footer-btn:active { transform: translateY(0); }
 
-        @media (max-width: 480px) {
-            .user-info-grid { grid-template-columns: 1fr; }
-            .header h1 { font-size: 1.5rem; }
+        .send-btn:hover { background: #128C7E; transform: translateY(-2px); }
+        .send-btn:active { transform: translateY(0); }
+
+        @media (max-width: 420px) {
+            .user-grid { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: 1fr 1fr; gap: 9px; }
+            .card-img-wrap { height: 110px; }
+            .header h1 { font-size: 1.6rem; }
         }
     </style>
 </head>
 <body>
 
+<div class="header">
+    <div class="header-flag">🗼</div>
+    <h1>בונים את פריז שלך</h1>
+    <p>בחרו את המקומות שמדליקים אתכם — ואבנה מסלול על הדרך</p>
+</div>
+
+<div class="progress-wrap">
+    <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">טרם נבחרו מקומות</div>
+</div>
+
 <div class="container">
-    <div class="header">
-        <h1>🇫🇷 בונים את פריז שלך</h1>
-        <p>בחרו את המקומות שמעניינים אתכם — אבנה לכם מסלול חלומי!</p>
-        <div class="progress-bar-wrap">
-            <div class="progress-bar" id="progressBar"></div>
+
+    <div class="user-grid">
+        <div class="field full">
+            <label>שם מלא *</label>
+            <input type="text" id="userName" placeholder="למשל: יוסי ורחל כהן">
         </div>
-        <div class="progress-label" id="progressLabel">טרם נבחרו מקומות</div>
+        <div class="field">
+            <label>תאריך הגעה</label>
+            <input type="date" id="arrivalDate">
+        </div>
+        <div class="field">
+            <label>תאריך עזיבה</label>
+            <input type="date" id="departureDate">
+        </div>
+        <div class="field">
+            <label>מספר מטיילים</label>
+            <select id="groupSize">
+                <option value="">בחרו...</option>
+                <option>1 — יחיד/ה</option>
+                <option>2 — זוג</option>
+                <option>3-4 — קבוצה קטנה</option>
+                <option>5+ — קבוצה גדולה</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>תקציב</label>
+            <select id="budget">
+                <option value="">בחרו...</option>
+                <option>חסכוני 🪙</option>
+                <option>בינוני 💶</option>
+                <option>נוח ✨</option>
+                <option>יוקרה 💎</option>
+            </select>
+        </div>
     </div>
 
-    <div class="body-wrap">
+    <div id="categoriesContainer"></div>
 
-        <div class="user-info-grid">
-            <div class="field-group full">
-                <label>שם מלא *</label>
-                <input type="text" id="userName" placeholder="למשל: יוסי ורחל כהן">
-            </div>
-            <div class="field-group">
-                <label>תאריך הגעה</label>
-                <input type="date" id="arrivalDate">
-            </div>
-            <div class="field-group">
-                <label>תאריך עזיבה</label>
-                <input type="date" id="departureDate">
-            </div>
-            <div class="field-group">
-                <label>מספר מטיילים</label>
-                <select id="groupSize">
-                    <option value="">בחרו...</option>
-                    <option>1 (יחיד/ה)</option>
-                    <option>2 (זוג)</option>
-                    <option>3-4 (קבוצה קטנה)</option>
-                    <option>5+ (קבוצה גדולה)</option>
-                </select>
-            </div>
-            <div class="field-group">
-                <label>רמת תקציב</label>
-                <select id="budget">
-                    <option value="">בחרו...</option>
-                    <option>חסכוני 🪙</option>
-                    <option>בינוני 💶</option>
-                    <option>נוח ✨</option>
-                    <option>יוקרה 💎</option>
-                </select>
-            </div>
-        </div>
+    <hr class="divider">
 
-        <div id="categoriesContainer"></div>
-
-        <hr class="section-divider">
-
-        <div class="special-req">
-            <label>💬 בקשות מיוחדות / הערות</label>
-            <textarea id="specialReq" placeholder="למשל: אנחנו עם ילדים קטנים, מעוניינים בפעילויות כשרות, יש לנו בעיית ניידות..."></textarea>
-        </div>
-
-        <div class="summary-badge" id="summaryBadge">
-            בחרו מקומות שמעניינים אתכם ואשלח לכם מסלול מותאם אישית 🗺️
-        </div>
-
-        <button class="footer-btn" onclick="sendToWhatsApp()">
-            📲 שלח לבניית מסלול בוואטסאפ
-        </button>
-
+    <div class="special-req">
+        <label>💬 בקשות מיוחדות / הערות</label>
+        <textarea id="specialReq" placeholder="ילדים קטנים, כשרות, בעיית ניידות, תחומי עניין מיוחדים..."></textarea>
     </div>
+
+    <div class="summary-badge" id="summaryBadge">
+        בחרו מקומות ואבנה לכם מסלול מותאם אישית 🗺️
+    </div>
+
+    <button class="send-btn" onclick="sendToWhatsApp()">
+        📲 שלח לבניית המסלול בוואטסאפ
+    </button>
+
 </div>
 
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
 // הגדרות — ערוך כאן בלבד
+// להוספת קטגוריה: העתק בלוק { id, icon, title, places } והוסף לרשימה.
+// להוספת מקום: הוסף { name, img } לתוך places של הקטגוריה הרצויה.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const MY_PHONE = "972523030015";
 
-// להוספת קטגוריה: העתק בלוק { id, icon, title, places:[...] } והוסף לרשימה.
-// להוספת מקום: הוסף "שם המקום 🏛️" לתוך מערך places של הקטגוריה הרצויה.
 const CATEGORIES = [
     {
         id: "must",
         icon: "📍",
-        title: "אתרי חובה (Icons)",
+        title: "אתרי חובה",
         places: [
-            "מגדל אייפל 🗼",
-            "מוזיאון הלובר 🖼️",
-            "שער הניצחון 🏛️",
-            "קתדרלת נוטרדאם ⛪",
-            "שאנז אליזה 🛍️",
+            { name: "מגדל אייפל",       img: "https://loremflickr.com/400/220/eiffel,tower,paris" },
+            { name: "מוזיאון הלובר",     img: "https://loremflickr.com/400/220/louvre,paris,museum" },
+            { name: "שער הניצחון",       img: "https://loremflickr.com/400/220/arc,triumph,paris" },
+            { name: "קתדרלת נוטרדאם",   img: "https://loremflickr.com/400/220/notre,dame,paris,cathedral" },
+            { name: "שאנז אליזה",        img: "https://loremflickr.com/400/220/champs,elysees,paris" },
         ]
     },
     {
@@ -311,11 +433,11 @@ const CATEGORIES = [
         icon: "🎨",
         title: "אמנות ותרבות",
         places: [
-            "מוזיאון ד'אורסיי 🌻",
-            "מרכז פומפידו 🏗️",
-            "מוזיאון פיקאסו 🎭",
-            "המוזיאון היהודי (MAHJ) ✡️",
-            "ארמון ורסאי 👑 (טיול יום)",
+            { name: "מוזיאון ד'אורסיי",      img: "https://loremflickr.com/400/220/orsay,museum,paris" },
+            { name: "מרכז פומפידו",           img: "https://loremflickr.com/400/220/pompidou,paris,art" },
+            { name: "מוזיאון פיקאסו",         img: "https://loremflickr.com/400/220/picasso,art,museum" },
+            { name: "המוזיאון היהודי (MAHJ)", img: "https://loremflickr.com/400/220/jewish,museum,paris" },
+            { name: "ארמון ורסאי (יום שלם)",  img: "https://loremflickr.com/400/220/versailles,palace,garden" },
         ]
     },
     {
@@ -323,11 +445,11 @@ const CATEGORIES = [
         icon: "🏘️",
         title: "שכונות לסיור",
         places: [
-            "מונמארטר — הבוהמית 🎪",
-            "לה מארה — יהודית/אופנתית 👗",
-            "הרובע הלטיני — סטודנטים 📚",
-            "תעלת סן מרטן — היפסטרית ☕",
-            "סן ז'רמן דה פרה — ספרותית 📖",
+            { name: "מונמארטר",          img: "https://loremflickr.com/400/220/montmartre,paris,sacre,coeur" },
+            { name: "לה מארה",           img: "https://loremflickr.com/400/220/marais,paris,street" },
+            { name: "הרובע הלטיני",      img: "https://loremflickr.com/400/220/latin,quarter,paris" },
+            { name: "תעלת סן מרטן",      img: "https://loremflickr.com/400/220/canal,saint,martin,paris" },
+            { name: "סן ז'רמן דה פרה",   img: "https://loremflickr.com/400/220/saint,germain,paris,cafe" },
         ]
     },
     {
@@ -335,10 +457,10 @@ const CATEGORIES = [
         icon: "🌳",
         title: "פארקים ומנוחה",
         places: [
-            "גני לוקסמבורג 🌷",
-            "גני טווילרי 🌿",
-            "פארק בוט שומון 🦆",
-            "פרומנד פלאנטה — הגשר הירוק 🌉",
+            { name: "גני לוקסמבורג",                  img: "https://loremflickr.com/400/220/luxembourg,garden,paris" },
+            { name: "גני טווילרי",                    img: "https://loremflickr.com/400/220/tuileries,garden,paris" },
+            { name: "פארק בוט שומון",                 img: "https://loremflickr.com/400/220/buttes,chaumont,paris,park" },
+            { name: "פרומנד פלאנטה (הגשר הירוק)",    img: "https://loremflickr.com/400/220/paris,viaduct,promenade,green" },
         ]
     },
     {
@@ -346,74 +468,80 @@ const CATEGORIES = [
         icon: "🍽️",
         title: "אוכל וקניות",
         places: [
-            "שוק אוכל צרפתי אותנטי 🧀",
-            "מסעדות כשרות במארה 🕍",
-            "גלריה לאפייט — קניות 🛍️",
-            "שוק פשפשים Saint-Ouen 🪴",
+            { name: "שוק אוכל צרפתי אותנטי",  img: "https://loremflickr.com/400/220/paris,market,french,food" },
+            { name: "מסעדות כשרות במארה",      img: "https://loremflickr.com/400/220/kosher,paris,food,restaurant" },
+            { name: "גלריה לאפייט",            img: "https://loremflickr.com/400/220/galeries,lafayette,paris,shopping" },
+            { name: "שוק פשפשים Saint-Ouen",   img: "https://loremflickr.com/400/220/flea,market,paris,antique" },
         ]
     },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// בניית ה-UI — אין צורך לגעת מכאן
+// UI — אין צורך לגעת מכאן
 // ─────────────────────────────────────────────────────────────────────────────
 
 function buildCategories() {
     const container = document.getElementById('categoriesContainer');
     CATEGORIES.forEach(cat => {
-        const div = document.createElement('div');
-        div.className = 'category';
-        div.innerHTML = `
-            <div class="category-header">
-                <div class="category-title">${cat.icon} ${cat.title}</div>
+        const section = document.createElement('div');
+        section.className = 'category';
+
+        const cardsHtml = cat.places.map((place, i) => `
+            <div class="place-card" data-cat="${cat.id}" data-name="${place.name.replace(/"/g,'&quot;')}" onclick="toggleCard(this)">
+                <input type="checkbox" class="place ${cat.id}">
+                <div class="card-check">✓</div>
+                <div class="card-img-wrap" id="img-${cat.id}-${i}">
+                    <img src="${place.img}" alt="${place.name}" loading="lazy"
+                         onerror="this.closest('.card-img-wrap').classList.add('no-img'); this.style.display='none';">
+                </div>
+                <div class="card-name">${place.name}</div>
+            </div>
+        `).join('');
+
+        section.innerHTML = `
+            <div class="cat-header">
+                <div class="cat-title"><span>${cat.icon}</span>${cat.title}</div>
                 <button class="select-all-btn" onclick="toggleAll(this,'${cat.id}')">בחר הכל</button>
             </div>
-            <div class="items-wrap">
-                ${cat.places.map(place => `
-                    <div class="item" onclick="toggleItem(this)">
-                        <input type="checkbox" class="place ${cat.id}" value="${place.replace(/"/g,'&quot;')}">
-                        <label>${place}</label>
-                        <span class="check-icon">✓</span>
-                    </div>
-                `).join('')}
-            </div>`;
-        container.appendChild(div);
+            <div class="cards-grid">${cardsHtml}</div>
+        `;
+        container.appendChild(section);
     });
 }
 
-function toggleItem(el) {
-    if (el.tagName === 'INPUT') return;
-    const cb = el.querySelector('input[type="checkbox"]');
+function toggleCard(card) {
+    const cb = card.querySelector('input[type="checkbox"]');
     cb.checked = !cb.checked;
-    el.classList.toggle('selected', cb.checked);
+    card.classList.toggle('selected', cb.checked);
     updateProgress();
 }
 
 function toggleAll(btn, catId) {
-    const checkboxes = document.querySelectorAll('.place.' + catId);
-    const allChecked = [...checkboxes].every(cb => cb.checked);
-    checkboxes.forEach(cb => {
-        cb.checked = !allChecked;
-        cb.closest('.item').classList.toggle('selected', !allChecked);
+    const cards    = document.querySelectorAll(`.place-card[data-cat="${catId}"]`);
+    const allOn    = [...cards].every(c => c.classList.contains('selected'));
+    cards.forEach(card => {
+        const cb = card.querySelector('input');
+        cb.checked = !allOn;
+        card.classList.toggle('selected', !allOn);
     });
-    btn.textContent = allChecked ? 'בחר הכל' : 'בטל הכל';
+    btn.textContent = allOn ? 'בחר הכל' : 'בטל הכל';
     updateProgress();
 }
 
 function updateProgress() {
-    const total    = document.querySelectorAll('.place').length;
-    const selected = document.querySelectorAll('.place:checked').length;
+    const total    = document.querySelectorAll('.place-card').length;
+    const selected = document.querySelectorAll('.place-card.selected').length;
     const pct      = total ? Math.round((selected / total) * 100) : 0;
 
-    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressFill').style.width = pct + '%';
     document.getElementById('progressLabel').textContent =
         selected === 0 ? 'טרם נבחרו מקומות'
         : selected === 1 ? 'מקום אחד נבחר'
-        : selected + ' מקומות נבחרו';
+        : `${selected} מקומות נבחרו`;
 
     document.getElementById('summaryBadge').textContent =
         selected === 0
-        ? 'בחרו מקומות שמעניינים אתכם ואשלח לכם מסלול מותאם אישית 🗺️'
+        ? 'בחרו מקומות ואבנה לכם מסלול מותאם אישית 🗺️'
         : `✅ נבחרו ${selected} מקומות — לחצו שלח ונבנה יחד את המסלול!`;
 }
 
@@ -424,10 +552,10 @@ function sendToWhatsApp() {
     const group     = document.getElementById('groupSize').value;
     const budget    = document.getElementById('budget').value;
     const special   = document.getElementById('specialReq').value.trim();
-    const checked   = document.querySelectorAll('.place:checked');
+    const selected  = document.querySelectorAll('.place-card.selected');
 
-    if (!name)            { alert('בבקשה רשמו את שמכם'); return; }
-    if (!checked.length)  { alert('בבקשה בחרו לפחות מקום אחד'); return; }
+    if (!name)           { alert('בבקשה רשמו את שמכם'); return; }
+    if (!selected.length){ alert('בבקשה בחרו לפחות מקום אחד'); return; }
 
     let msg = `היי! אני ${name} ואני מעוניין/ת בבניית מסלול לפריז 🇫🇷\n\n`;
 
@@ -437,7 +565,7 @@ function sendToWhatsApp() {
     if (budget)    msg += `💶 תקציב: ${budget}\n`;
 
     msg += `\n📍 המקומות שבחרתי:\n`;
-    checked.forEach((cb, i) => { msg += `${i + 1}. ${cb.value}\n`; });
+    selected.forEach((card, i) => { msg += `${i + 1}. ${card.dataset.name}\n`; });
 
     if (special) msg += `\n💬 הערות: ${special}`;
     msg += `\n\nמחכה למסלול שלכם! תודה 🙏`;
@@ -446,7 +574,6 @@ function sendToWhatsApp() {
 }
 
 function fmtDate(s) {
-    if (!s) return '';
     const [y, m, d] = s.split('-');
     return `${d}/${m}/${y}`;
 }
