@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מתכנן הטיולים שלך לפריז</title>
+    <title>פריז — הכל מהכל | דוס טריפ</title>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --black:   #0F0F0F;
-            --dark:    #1A1A1A;
-            --dark2:   #252525;
-            --yellow:  #FFD100;
-            --orange:  #FF6B00;
-            --white:   #FFFFFF;
-            --gray:    #999;
+            --black:  #0F0F0F;
+            --dark:   #1A1A1A;
+            --dark2:  #252525;
+            --yellow: #FFD100;
+            --orange: #FF6B00;
+            --white:  #FFFFFF;
+            --gray:   #888;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,42 +23,32 @@
             background: var(--black);
             min-height: 100vh;
             color: var(--white);
-            padding-bottom: 40px;
+            padding-bottom: 50px;
         }
 
         /* ── Header ── */
         .header {
             background: var(--black);
-            padding: 32px 24px 24px;
+            padding: 28px 24px 18px;
             text-align: center;
             border-bottom: 3px solid var(--yellow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .header-flag { font-size: 2.8rem; line-height: 1; margin-bottom: 6px; }
-
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--yellow);
-            letter-spacing: -0.5px;
-        }
-
-        .header p { color: var(--gray); font-size: 0.95rem; margin-top: 6px; }
+        .header-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+        .header h1 { font-size: 1.7rem; font-weight: 800; color: var(--yellow); }
+        .header-flag { font-size: 2rem; }
+        .header p { color: var(--gray); font-size: 0.88rem; margin-top: 5px; }
 
         /* Progress */
         .progress-wrap {
-            max-width: 620px;
+            max-width: 680px;
             margin: 0 auto;
-            padding: 14px 24px 0;
+            padding: 12px 20px 0;
         }
-
-        .progress-track {
-            background: var(--dark2);
-            border-radius: 20px;
-            height: 7px;
-            overflow: hidden;
-        }
-
+        .progress-track { background: var(--dark2); border-radius: 20px; height: 6px; overflow: hidden; }
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--orange), var(--yellow));
@@ -66,132 +56,68 @@
             width: 0%;
             transition: width 0.4s ease;
         }
-
-        .progress-label {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-top: 6px;
-            text-align: center;
-        }
+        .progress-label { font-size: 0.78rem; color: var(--gray); margin-top: 5px; text-align: center; }
 
         /* ── Container ── */
-        .container {
-            max-width: 620px;
-            margin: 0 auto;
-            padding: 24px 18px;
-        }
+        .container { max-width: 680px; margin: 0 auto; padding: 20px 16px; }
 
         /* ── Form fields ── */
-        .user-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 28px;
-        }
-
-        .field { display: flex; flex-direction: column; gap: 5px; }
+        .user-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+        .field { display: flex; flex-direction: column; gap: 4px; }
         .field.full { grid-column: 1 / -1; }
-
-        .field label {
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--yellow);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .field input,
-        .field select {
-            padding: 11px 14px;
+        .field label { font-size: 0.78rem; font-weight: 700; color: var(--yellow); text-transform: uppercase; letter-spacing: 0.5px; }
+        .field input, .field select {
+            padding: 10px 12px;
             background: var(--dark2);
             border: 1.5px solid #333;
             border-radius: 8px;
             color: var(--white);
             font-family: 'Assistant', sans-serif;
-            font-size: 0.97rem;
+            font-size: 0.95rem;
             transition: border-color 0.2s;
         }
-
         .field input::placeholder { color: #555; }
-
-        .field input:focus,
-        .field select:focus {
-            outline: none;
-            border-color: var(--orange);
-        }
-
+        .field input:focus, .field select:focus { outline: none; border-color: var(--orange); }
         .field select option { background: var(--dark2); }
 
-        /* ── Category block ── */
-        .category { margin-bottom: 28px; }
-
-        .cat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .cat-title {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: var(--yellow);
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-
-        .cat-title span { font-size: 1.3rem; }
-
+        /* ── Category ── */
+        .category { margin-bottom: 26px; }
+        .cat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .cat-title { font-size: 1rem; font-weight: 800; color: var(--yellow); display: flex; align-items: center; gap: 7px; }
+        .cat-icon { font-size: 1.25rem; }
         .select-all-btn {
-            font-size: 0.75rem;
-            color: var(--orange);
-            background: transparent;
-            border: 1px solid var(--orange);
-            border-radius: 20px;
-            padding: 3px 12px;
-            cursor: pointer;
-            font-family: 'Assistant', sans-serif;
-            font-weight: 700;
-            transition: all 0.2s;
+            font-size: 0.72rem; color: var(--orange); background: transparent;
+            border: 1px solid var(--orange); border-radius: 20px; padding: 3px 10px;
+            cursor: pointer; font-family: 'Assistant', sans-serif; font-weight: 700; transition: all 0.2s;
         }
-
         .select-all-btn:hover { background: var(--orange); color: var(--white); }
 
-        /* ── Cards grid ── */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
+        /* ── Card grid ── */
+        .cards-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
         .place-card {
             background: var(--dark2);
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
-            border: 2.5px solid transparent;
+            border: 2px solid transparent;
             transition: border-color 0.2s, transform 0.15s;
             user-select: none;
             position: relative;
         }
-
         .place-card:hover { border-color: #444; transform: translateY(-2px); }
-
         .place-card.selected {
             border-color: var(--orange);
-            box-shadow: 0 0 0 1px var(--orange), 0 4px 16px rgba(255,107,0,0.25);
+            box-shadow: 0 0 0 1px var(--orange), 0 3px 12px rgba(255,107,0,0.2);
         }
 
-        /* Image area */
         .card-img-wrap {
             position: relative;
             width: 100%;
-            height: 130px;
+            height: 100px;
             background: linear-gradient(135deg, #2a2a2a, #333);
             overflow: hidden;
         }
-
         .card-img-wrap img {
             width: 100%;
             height: 100%;
@@ -199,148 +125,117 @@
             display: block;
             transition: transform 0.35s;
         }
-
-        .place-card:hover .card-img-wrap img { transform: scale(1.05); }
-
-        /* Gradient overlay always */
+        .place-card:hover .card-img-wrap img { transform: scale(1.06); }
         .card-img-wrap::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%);
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 55%);
+        }
+        .card-img-wrap.no-img {
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--dark2), #333);
         }
 
-        /* Selected overlay */
         .card-check {
             position: absolute;
-            top: 8px;
-            left: 8px;
-            width: 28px;
-            height: 28px;
+            top: 6px; left: 6px;
+            width: 24px; height: 24px;
             background: var(--orange);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            color: white;
-            font-weight: 800;
-            opacity: 0;
-            transform: scale(0.5);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.78rem; color: white; font-weight: 800;
+            opacity: 0; transform: scale(0.5);
             transition: opacity 0.2s, transform 0.2s;
             z-index: 2;
         }
+        .place-card.selected .card-check { opacity: 1; transform: scale(1); }
 
-        .place-card.selected .card-check {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* img fallback */
-        .card-img-wrap.no-img {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-        }
-
-        /* Name bar */
         .card-name {
-            padding: 10px 12px;
-            font-size: 0.9rem;
+            padding: 7px 8px;
+            font-size: 0.78rem;
             font-weight: 600;
             color: var(--white);
             line-height: 1.3;
         }
-
         .place-card.selected .card-name { color: var(--yellow); }
-
-        /* hidden checkbox */
         .place-card input[type="checkbox"] { display: none; }
 
         /* ── Divider ── */
-        .divider {
-            border: none;
-            border-top: 1px solid #2a2a2a;
-            margin: 28px 0 22px;
-        }
+        .divider { border: none; border-top: 1px solid #2a2a2a; margin: 24px 0 20px; }
 
         /* ── Textarea ── */
         .special-req label {
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--yellow);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: block;
-            margin-bottom: 8px;
+            font-size: 0.78rem; font-weight: 700; color: var(--yellow);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            display: block; margin-bottom: 7px;
         }
-
         .special-req textarea {
-            width: 100%;
-            padding: 12px 14px;
-            background: var(--dark2);
-            border: 1.5px solid #333;
-            border-radius: 8px;
-            color: var(--white);
-            font-family: 'Assistant', sans-serif;
-            font-size: 0.95rem;
-            resize: vertical;
-            min-height: 80px;
-            transition: border-color 0.2s;
+            width: 100%; padding: 11px 13px;
+            background: var(--dark2); border: 1.5px solid #333;
+            border-radius: 8px; color: var(--white);
+            font-family: 'Assistant', sans-serif; font-size: 0.94rem;
+            resize: vertical; min-height: 75px; transition: border-color 0.2s;
         }
-
         .special-req textarea::placeholder { color: #555; }
         .special-req textarea:focus { outline: none; border-color: var(--orange); }
 
-        /* ── Summary badge ── */
+        /* ── Summary ── */
         .summary-badge {
-            margin: 20px 0 16px;
-            padding: 13px 18px;
+            margin: 18px 0 14px;
+            padding: 12px 16px;
             background: var(--dark2);
             border: 1.5px solid var(--yellow);
             border-radius: 10px;
             color: var(--yellow);
             font-weight: 700;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             text-align: center;
             transition: all 0.3s;
         }
 
         /* ── Send button ── */
         .send-btn {
-            width: 100%;
-            padding: 17px;
-            background: #25D366;
-            color: white;
-            border: none;
+            width: 100%; padding: 16px;
+            background: #25D366; color: white; border: none;
             border-radius: 12px;
             font-family: 'Assistant', sans-serif;
-            font-size: 1.12rem;
-            font-weight: 800;
+            font-size: 1.08rem; font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 4px 14px rgba(37,211,102,0.3);
+            box-shadow: 0 4px 14px rgba(37,211,102,0.28);
             transition: all 0.25s;
-            letter-spacing: 0.3px;
         }
-
         .send-btn:hover { background: #128C7E; transform: translateY(-2px); }
         .send-btn:active { transform: translateY(0); }
 
-        @media (max-width: 420px) {
+        /* ── Footer ── */
+        .page-footer {
+            text-align: center;
+            color: #444;
+            font-size: 0.72rem;
+            margin-top: 30px;
+            padding: 0 16px;
+            line-height: 1.6;
+        }
+        .page-footer strong { color: #666; }
+
+        @media (max-width: 500px) {
             .user-grid { grid-template-columns: 1fr; }
-            .cards-grid { grid-template-columns: 1fr 1fr; gap: 9px; }
-            .card-img-wrap { height: 110px; }
-            .header h1 { font-size: 1.6rem; }
+            .cards-grid { grid-template-columns: 1fr 1fr; }
+            .header h1 { font-size: 1.35rem; }
         }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="header-flag">🗼</div>
-    <h1>בונים את פריז שלך</h1>
-    <p>בחרו את המקומות שמדליקים אתכם — ואבנה מסלול על הדרך</p>
+    <div class="header-row">
+        <span class="header-flag">🗼</span>
+        <h1>פריז — הכל מהכל</h1>
+        <span class="header-flag">🇫🇷</span>
+    </div>
+    <p>סמנו מה מעניין אתכם ואבנה מסלול מותאם אישית</p>
 </div>
 
 <div class="progress-wrap">
@@ -397,20 +292,25 @@
     </div>
 
     <div class="summary-badge" id="summaryBadge">
-        בחרו מקומות ואבנה לכם מסלול מותאם אישית 🗺️
+        סמנו מקומות ואבנה לכם מסלול מותאם אישית 🗺️
     </div>
 
     <button class="send-btn" onclick="sendToWhatsApp()">
         📲 שלח לבניית המסלול בוואטסאפ
     </button>
 
+    <div class="page-footer">
+        <strong>פריז — הכל מהכל</strong><br>
+        זכויות שמורות לדוס טריפ. אין להעתיק או להעביר.
+    </div>
+
 </div>
 
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
 // הגדרות — ערוך כאן בלבד
-// להוספת קטגוריה: העתק בלוק { id, icon, title, places } והוסף לרשימה.
-// להוספת מקום: הוסף { name, img } לתוך places של הקטגוריה הרצויה.
+// להוספת קטגוריה: { id, icon, title, places:[{name, img},...] }
+// להוספת מקום: { name:"שם", img:"URL" }
 // ─────────────────────────────────────────────────────────────────────────────
 
 const MY_PHONE = "972523030015";
@@ -421,23 +321,37 @@ const CATEGORIES = [
         icon: "📍",
         title: "אתרי חובה",
         places: [
-            { name: "מגדל אייפל",       img: "https://loremflickr.com/400/220/eiffel,tower,paris" },
-            { name: "מוזיאון הלובר",     img: "https://loremflickr.com/400/220/louvre,paris,museum" },
-            { name: "שער הניצחון",       img: "https://loremflickr.com/400/220/arc,triumph,paris" },
-            { name: "קתדרלת נוטרדאם",   img: "https://loremflickr.com/400/220/notre,dame,paris,cathedral" },
-            { name: "שאנז אליזה",        img: "https://loremflickr.com/400/220/champs,elysees,paris" },
+            { name: "מגדל אייפל",                  img: "https://loremflickr.com/300/200/eiffel,tower,paris" },
+            { name: "מוזיאון הלובר",                img: "https://loremflickr.com/300/200/louvre,paris,museum" },
+            { name: "קתדרלת נוטרדאם",              img: "https://loremflickr.com/300/200/notre,dame,paris,cathedral" },
+            { name: "שער הניצחון",                  img: "https://loremflickr.com/300/200/arc,triumph,paris" },
+            { name: "בזיליקת סקרה-קר",             img: "https://loremflickr.com/300/200/sacre,coeur,paris,white" },
+            { name: "גני טווילרי",                  img: "https://loremflickr.com/300/200/tuileries,garden,paris" },
+            { name: "כיכר הקונקורד",               img: "https://loremflickr.com/300/200/paris,concorde,obelisk" },
+            { name: "גשר אלכסנדר השלישי",          img: "https://loremflickr.com/300/200/paris,bridge,seine,alexandre" },
+            { name: "שייט על נהר הסיין",           img: "https://loremflickr.com/300/200/paris,seine,river,cruise,boat" },
         ]
     },
     {
-        id: "art",
+        id: "museums",
         icon: "🎨",
-        title: "אמנות ותרבות",
+        title: "מוזיאונים וגלריות",
         places: [
-            { name: "מוזיאון ד'אורסיי",      img: "https://loremflickr.com/400/220/orsay,museum,paris" },
-            { name: "מרכז פומפידו",           img: "https://loremflickr.com/400/220/pompidou,paris,art" },
-            { name: "מוזיאון פיקאסו",         img: "https://loremflickr.com/400/220/picasso,art,museum" },
-            { name: "המוזיאון היהודי (MAHJ)", img: "https://loremflickr.com/400/220/jewish,museum,paris" },
-            { name: "ארמון ורסאי (יום שלם)",  img: "https://loremflickr.com/400/220/versailles,palace,garden" },
+            { name: "מוזיאון ד'אורסיי",            img: "https://loremflickr.com/300/200/orsay,museum,paris,train" },
+            { name: "מוזיאון האורנז'רי",            img: "https://loremflickr.com/300/200/monet,waterlilies,orangerie" },
+            { name: "מרכז פומפידו",                img: "https://loremflickr.com/300/200/pompidou,paris,modern,art" },
+            { name: "פטי פאלה",                    img: "https://loremflickr.com/300/200/petit,palais,paris,museum" },
+            { name: "גראן פאלה",                   img: "https://loremflickr.com/300/200/grand,palais,paris,glass" },
+            { name: "מוזיאון רודן",                img: "https://loremflickr.com/300/200/rodin,thinker,sculpture,garden" },
+            { name: "מוזיאון פיקאסו",              img: "https://loremflickr.com/300/200/picasso,art,museum,painting" },
+            { name: "מוזיאון מרמוטן מונה",          img: "https://loremflickr.com/300/200/monet,impressionist,lily,painting" },
+            { name: "מוזיאון קרנוולה",             img: "https://loremflickr.com/300/200/paris,history,marais,hotel" },
+            { name: "מוזיאון לאמנויות דקורטיביות", img: "https://loremflickr.com/300/200/decorative,arts,paris,design" },
+            { name: "מוזיאון קה בראנלי",           img: "https://loremflickr.com/300/200/tribal,art,museum,paris" },
+            { name: "קרן לואי ויטון",              img: "https://loremflickr.com/300/200/louis,vuitton,foundation,paris,glass" },
+            { name: "פאלה דה טוקיו",               img: "https://loremflickr.com/300/200/contemporary,art,paris,exhibition" },
+            { name: "המוזיאון היהודי (MAHJ)",       img: "https://loremflickr.com/300/200/jewish,museum,paris,marais" },
+            { name: "המוזיאון לחיים הרומנטיים",    img: "https://loremflickr.com/300/200/romantic,paris,garden,cottage" },
         ]
     },
     {
@@ -445,39 +359,98 @@ const CATEGORIES = [
         icon: "🏘️",
         title: "שכונות לסיור",
         places: [
-            { name: "מונמארטר",          img: "https://loremflickr.com/400/220/montmartre,paris,sacre,coeur" },
-            { name: "לה מארה",           img: "https://loremflickr.com/400/220/marais,paris,street" },
-            { name: "הרובע הלטיני",      img: "https://loremflickr.com/400/220/latin,quarter,paris" },
-            { name: "תעלת סן מרטן",      img: "https://loremflickr.com/400/220/canal,saint,martin,paris" },
-            { name: "סן ז'רמן דה פרה",   img: "https://loremflickr.com/400/220/saint,germain,paris,cafe" },
+            { name: "מונמארטר",                    img: "https://loremflickr.com/300/200/montmartre,paris,street,bohemian" },
+            { name: "לה מארה",                     img: "https://loremflickr.com/300/200/marais,paris,street,jewish" },
+            { name: "הרובע הלטיני",                img: "https://loremflickr.com/300/200/latin,quarter,paris,sorbonne" },
+            { name: "תעלת סן מרטן",               img: "https://loremflickr.com/300/200/canal,saint,martin,paris,bridge" },
+            { name: "סן ז'רמן דה פרה",             img: "https://loremflickr.com/300/200/saint,germain,paris,cafe,literary" },
+            { name: "בלוויל",                      img: "https://loremflickr.com/300/200/belleville,paris,graffiti,street" },
+            { name: "ביט או קאי",                  img: "https://loremflickr.com/300/200/paris,village,cobblestone,alley" },
+            { name: "בסטיל",                       img: "https://loremflickr.com/300/200/bastille,paris,opera,night" },
+            { name: "איל סן לואי",                 img: "https://loremflickr.com/300/200/ile,saint,louis,paris,seine,island" },
+            { name: "פיגאל",                       img: "https://loremflickr.com/300/200/moulin,rouge,paris,pigalle" },
+            { name: "אוברקמפף",                   img: "https://loremflickr.com/300/200/paris,bar,hipster,street,night" },
         ]
     },
     {
         id: "park",
         icon: "🌳",
-        title: "פארקים ומנוחה",
+        title: "פארקים וגנים",
         places: [
-            { name: "גני לוקסמבורג",                  img: "https://loremflickr.com/400/220/luxembourg,garden,paris" },
-            { name: "גני טווילרי",                    img: "https://loremflickr.com/400/220/tuileries,garden,paris" },
-            { name: "פארק בוט שומון",                 img: "https://loremflickr.com/400/220/buttes,chaumont,paris,park" },
-            { name: "פרומנד פלאנטה (הגשר הירוק)",    img: "https://loremflickr.com/400/220/paris,viaduct,promenade,green" },
+            { name: "גני לוקסמבורג",               img: "https://loremflickr.com/300/200/luxembourg,garden,paris,fountain" },
+            { name: "פארק בוט שומון",              img: "https://loremflickr.com/300/200/buttes,chaumont,paris,lake,cliff" },
+            { name: "יער ונסן",                    img: "https://loremflickr.com/300/200/vincennes,forest,paris,lake" },
+            { name: "יער בולון",                   img: "https://loremflickr.com/300/200/boulogne,forest,paris,lake,nature" },
+            { name: "פארק ברסי",                   img: "https://loremflickr.com/300/200/bercy,park,paris,garden,modern" },
+            { name: "פרומנד פלאנטה",               img: "https://loremflickr.com/300/200/paris,promenade,elevated,green,walkway" },
+            { name: "פארק מונסורי",                img: "https://loremflickr.com/300/200/montsouris,park,paris,lake" },
+            { name: "ז'רדן דה פלאנט",              img: "https://loremflickr.com/300/200/botanical,garden,paris,greenhouse" },
         ]
     },
     {
-        id: "food",
-        icon: "🍽️",
-        title: "אוכל וקניות",
+        id: "daytrip",
+        icon: "🚌",
+        title: "טיולי יום מחוץ לעיר",
         places: [
-            { name: "שוק אוכל צרפתי אותנטי",  img: "https://loremflickr.com/400/220/paris,market,french,food" },
-            { name: "מסעדות כשרות במארה",      img: "https://loremflickr.com/400/220/kosher,paris,food,restaurant" },
-            { name: "גלריה לאפייט",            img: "https://loremflickr.com/400/220/galeries,lafayette,paris,shopping" },
-            { name: "שוק פשפשים Saint-Ouen",   img: "https://loremflickr.com/400/220/flea,market,paris,antique" },
+            { name: "ארמון ורסאי",                 img: "https://loremflickr.com/300/200/versailles,palace,garden,france" },
+            { name: "ארמון פונטנבלו",              img: "https://loremflickr.com/300/200/fontainebleau,castle,palace,france" },
+            { name: "מון סן מישל",                 img: "https://loremflickr.com/300/200/mont,saint,michel,normandy,island" },
+            { name: "חופי הנחיתה בנורמנדי",        img: "https://loremflickr.com/300/200/normandy,beach,dday,memorial" },
+            { name: "עמק הלואר",                   img: "https://loremflickr.com/300/200/loire,valley,castle,chateau,france" },
+            { name: "קתדרלת שארטר",               img: "https://loremflickr.com/300/200/chartres,cathedral,gothic,stained,glass" },
+            { name: "ריימס ושמפניה",               img: "https://loremflickr.com/300/200/reims,cathedral,champagne,france" },
+            { name: "פרובאן — עיר ימי ביניים",     img: "https://loremflickr.com/300/200/provins,medieval,village,france,wall" },
+        ]
+    },
+    {
+        id: "shop",
+        icon: "🛍️",
+        title: "קניות",
+        places: [
+            { name: "גלרי לפאייט",                 img: "https://loremflickr.com/300/200/galeries,lafayette,paris,dome" },
+            { name: "פרינטאן אוסמן",               img: "https://loremflickr.com/300/200/printemps,paris,department,store" },
+            { name: "לה בון מרשה",                 img: "https://loremflickr.com/300/200/bon,marche,paris,luxury,shopping" },
+            { name: "קניון Beaugrenelle",           img: "https://loremflickr.com/300/200/paris,shopping,mall,seine,modern" },
+            { name: "Les Quatre Temps (לה דפאנס)", img: "https://loremflickr.com/300/200/la,defense,paris,shopping,skyscraper" },
+            { name: "גלרי ויאן / פזאז' ז'ופרואה",  img: "https://loremflickr.com/300/200/paris,arcade,passage,glass,roof" },
+            { name: "שוק פשפשים Saint-Ouen",       img: "https://loremflickr.com/300/200/flea,market,paris,antique,vintage" },
+            { name: "שוק אוכל צרפתי אותנטי",       img: "https://loremflickr.com/300/200/paris,food,market,french,cheese" },
+        ]
+    },
+    {
+        id: "experience",
+        icon: "🎭",
+        title: "חוויות ואטרקציות",
+        places: [
+            { name: "מגדל מונפרנאס — תצפית",       img: "https://loremflickr.com/300/200/montparnasse,tower,paris,panorama" },
+            { name: "אופרה גרנייה",                img: "https://loremflickr.com/300/200/opera,garnier,paris,theatre,baroque" },
+            { name: "הפנתיאון",                    img: "https://loremflickr.com/300/200/pantheon,paris,dome,neoclassical" },
+            { name: "הקטקומבות של פריז",           img: "https://loremflickr.com/300/200/catacombs,paris,underground,skulls" },
+            { name: "מוכרי ספרים לאורך הסן",       img: "https://loremflickr.com/300/200/seine,paris,books,bouquiniste,river" },
+            { name: "גלרי ויאן — מעברי הקניות",    img: "https://loremflickr.com/300/200/paris,passage,vivienne,vintage,arcade" },
+            { name: "בית הקברות מונמארטר",         img: "https://loremflickr.com/300/200/cemetery,paris,montmartre,history" },
+            { name: "מסעדות כשרות במארה",          img: "https://loremflickr.com/300/200/kosher,paris,restaurant,jewish,food" },
+        ]
+    },
+    {
+        id: "family",
+        icon: "👨‍👩‍👧‍👦",
+        title: "משפחות וילדים",
+        places: [
+            { name: "דיסנילנד פריז",               img: "https://loremflickr.com/300/200/disneyland,paris,castle,magic" },
+            { name: "פארק אסטריקס",                img: "https://loremflickr.com/300/200/asterix,theme,park,france,ride" },
+            { name: "גן החיות של פריז",            img: "https://loremflickr.com/300/200/paris,zoo,animals,giraffe" },
+            { name: "אקווריום פריז",               img: "https://loremflickr.com/300/200/paris,aquarium,shark,fish,underwater" },
+            { name: "מוזיאון המדע — פארק דה לה וילט", img: "https://loremflickr.com/300/200/paris,science,museum,villette,dome" },
+            { name: "מוזיאון השעווה גרוון",         img: "https://loremflickr.com/300/200/grevin,wax,museum,paris,celebrity" },
+            { name: "פארק מיניאטורות",              img: "https://loremflickr.com/300/200/miniature,france,park,model" },
+            { name: "אוטובוס תיירים — הופ-און הופ-אוף", img: "https://loremflickr.com/300/200/paris,tourist,bus,red,tour" },
         ]
     },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// UI — אין צורך לגעת מכאן
+// UI — אין לגעת מכאן
 // ─────────────────────────────────────────────────────────────────────────────
 
 function buildCategories() {
@@ -490,9 +463,9 @@ function buildCategories() {
             <div class="place-card" data-cat="${cat.id}" data-name="${place.name.replace(/"/g,'&quot;')}" onclick="toggleCard(this)">
                 <input type="checkbox" class="place ${cat.id}">
                 <div class="card-check">✓</div>
-                <div class="card-img-wrap" id="img-${cat.id}-${i}">
+                <div class="card-img-wrap" id="wrap-${cat.id}-${i}">
                     <img src="${place.img}" alt="${place.name}" loading="lazy"
-                         onerror="this.closest('.card-img-wrap').classList.add('no-img'); this.style.display='none';">
+                         onerror="this.closest('.card-img-wrap').classList.add('no-img'); this.remove();">
                 </div>
                 <div class="card-name">${place.name}</div>
             </div>
@@ -500,7 +473,9 @@ function buildCategories() {
 
         section.innerHTML = `
             <div class="cat-header">
-                <div class="cat-title"><span>${cat.icon}</span>${cat.title}</div>
+                <div class="cat-title">
+                    <span class="cat-icon">${cat.icon}</span>${cat.title}
+                </div>
                 <button class="select-all-btn" onclick="toggleAll(this,'${cat.id}')">בחר הכל</button>
             </div>
             <div class="cards-grid">${cardsHtml}</div>
@@ -517,11 +492,10 @@ function toggleCard(card) {
 }
 
 function toggleAll(btn, catId) {
-    const cards    = document.querySelectorAll(`.place-card[data-cat="${catId}"]`);
-    const allOn    = [...cards].every(c => c.classList.contains('selected'));
+    const cards  = document.querySelectorAll(`.place-card[data-cat="${catId}"]`);
+    const allOn  = [...cards].every(c => c.classList.contains('selected'));
     cards.forEach(card => {
-        const cb = card.querySelector('input');
-        cb.checked = !allOn;
+        card.querySelector('input').checked = !allOn;
         card.classList.toggle('selected', !allOn);
     });
     btn.textContent = allOn ? 'בחר הכל' : 'בטל הכל';
@@ -541,7 +515,7 @@ function updateProgress() {
 
     document.getElementById('summaryBadge').textContent =
         selected === 0
-        ? 'בחרו מקומות ואבנה לכם מסלול מותאם אישית 🗺️'
+        ? 'סמנו מקומות ואבנה לכם מסלול מותאם אישית 🗺️'
         : `✅ נבחרו ${selected} מקומות — לחצו שלח ונבנה יחד את המסלול!`;
 }
 
@@ -558,15 +532,12 @@ function sendToWhatsApp() {
     if (!selected.length){ alert('בבקשה בחרו לפחות מקום אחד'); return; }
 
     let msg = `היי! אני ${name} ואני מעוניין/ת בבניית מסלול לפריז 🇫🇷\n\n`;
-
     if (arrival)   msg += `📅 הגעה: ${fmtDate(arrival)}\n`;
     if (departure) msg += `📅 עזיבה: ${fmtDate(departure)}\n`;
     if (group)     msg += `👥 מטיילים: ${group}\n`;
     if (budget)    msg += `💶 תקציב: ${budget}\n`;
-
     msg += `\n📍 המקומות שבחרתי:\n`;
     selected.forEach((card, i) => { msg += `${i + 1}. ${card.dataset.name}\n`; });
-
     if (special) msg += `\n💬 הערות: ${special}`;
     msg += `\n\nמחכה למסלול שלכם! תודה 🙏`;
 
