@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מתכנן הטיולים שלך לפריז</title>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paris-blue: #002395;
+            --paris-red: #ED2939;
+            --paris-gold: #D4AF37;
+            --light-gray: #f4f4f9;
+            --selected-bg: #e8f0ff;
+            --selected-border: #002395;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background: linear-gradient(135deg, #002395 0%, #1a3a8f 50%, #ED2939 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px 15px 40px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 620px;
+            margin: 0 auto;
+            background: white;
+            padding: 0;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #002395, #1a3a8f);
+            color: white;
+            padding: 30px 25px 20px;
+            text-align: center;
+        }
+
+        .header h1 { margin: 0 0 8px; font-size: 1.9rem; font-weight: 700; }
+        .header p  { margin: 0; font-size: 1rem; opacity: 0.88; font-weight: 300; }
+
+        .progress-bar-wrap {
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            height: 8px;
+            margin-top: 18px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--paris-gold);
+            border-radius: 20px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .progress-label { font-size: 0.82rem; margin-top: 6px; opacity: 0.85; }
+
+        .body-wrap { padding: 22px 20px; }
+
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .field-group { display: flex; flex-direction: column; gap: 5px; }
+        .field-group.full { grid-column: 1 / -1; }
+
+        .field-group label { font-weight: 600; font-size: 0.88rem; color: var(--paris-blue); }
+
+        .field-group input,
+        .field-group select {
+            padding: 10px 12px;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Assistant', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+            background: white;
+        }
+        .field-group input:focus,
+        .field-group select:focus {
+            outline: none;
+            border-color: var(--paris-blue);
+            box-shadow: 0 0 0 3px rgba(0,35,149,0.1);
+        }
+
+        .category {
+            margin-bottom: 22px;
+            border: 1.5px solid #eee;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f8f9ff;
+            border-bottom: 1.5px solid #eee;
+        }
+
+        .category-title { font-weight: 700; font-size: 1.05rem; color: var(--paris-blue); }
+
+        .select-all-btn {
+            font-size: 0.78rem;
+            color: var(--paris-red);
+            cursor: pointer;
+            border: 1px solid var(--paris-red);
+            background: white;
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-family: 'Assistant', sans-serif;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .select-all-btn:hover { background: var(--paris-red); color: white; }
+
+        .items-wrap { padding: 10px 12px; }
+
+        .item {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            margin-bottom: 7px;
+            padding: 10px 12px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 9px;
+            transition: all 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+        .item:last-child { margin-bottom: 0; }
+        .item:hover { border-color: var(--paris-blue); background: #f0f4ff; }
+        .item.selected {
+            background: var(--selected-bg);
+            border-color: var(--selected-border);
+            box-shadow: 0 0 0 2px rgba(0,35,149,0.12);
+        }
+
+        .item input[type="checkbox"] {
+            width: 18px; height: 18px;
+            margin-left: 12px;
+            flex-shrink: 0;
+            accent-color: var(--paris-blue);
+            cursor: pointer;
+        }
+        .item label { cursor: pointer; flex: 1; font-size: 0.97rem; }
+        .item .check-icon { color: var(--paris-blue); font-size: 1rem; opacity: 0; transition: opacity 0.2s; margin-right: 4px; }
+        .item.selected .check-icon { opacity: 1; }
+
+        .section-divider { border: none; border-top: 2px dashed #eee; margin: 24px 0 18px; }
+
+        .special-req textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Assistant', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 70px;
+            transition: border-color 0.2s;
+        }
+        .special-req textarea:focus {
+            outline: none;
+            border-color: var(--paris-blue);
+            box-shadow: 0 0 0 3px rgba(0,35,149,0.1);
+        }
+        .special-req label { font-weight: 600; font-size: 0.88rem; color: var(--paris-blue); display: block; margin-bottom: 6px; }
+
+        .summary-badge {
+            background: #f0f4ff;
+            border: 1.5px solid var(--paris-blue);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            font-size: 0.92rem;
+            color: var(--paris-blue);
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .footer-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37,211,102,0.35);
+            transition: all 0.25s;
+            font-family: 'Assistant', sans-serif;
+            letter-spacing: 0.3px;
+        }
+        .footer-btn:hover { background: #128C7E; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(37,211,102,0.45); }
+        .footer-btn:active { transform: translateY(0); }
+
+        @media (max-width: 480px) {
+            .user-info-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🇫🇷 בונים את פריז שלך</h1>
+        <p>בחרו את המקומות שמעניינים אתכם — אבנה לכם מסלול חלומי!</p>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-label" id="progressLabel">טרם נבחרו מקומות</div>
+    </div>
+
+    <div class="body-wrap">
+
+        <div class="user-info-grid">
+            <div class="field-group full">
+                <label>שם מלא *</label>
+                <input type="text" id="userName" placeholder="למשל: יוסי ורחל כהן">
+            </div>
+            <div class="field-group">
+                <label>תאריך הגעה</label>
+                <input type="date" id="arrivalDate">
+            </div>
+            <div class="field-group">
+                <label>תאריך עזיבה</label>
+                <input type="date" id="departureDate">
+            </div>
+            <div class="field-group">
+                <label>מספר מטיילים</label>
+                <select id="groupSize">
+                    <option value="">בחרו...</option>
+                    <option>1 (יחיד/ה)</option>
+                    <option>2 (זוג)</option>
+                    <option>3-4 (קבוצה קטנה)</option>
+                    <option>5+ (קבוצה גדולה)</option>
+                </select>
+            </div>
+            <div class="field-group">
+                <label>רמת תקציב</label>
+                <select id="budget">
+                    <option value="">בחרו...</option>
+                    <option>חסכוני 🪙</option>
+                    <option>בינוני 💶</option>
+                    <option>נוח ✨</option>
+                    <option>יוקרה 💎</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="categoriesContainer"></div>
+
+        <hr class="section-divider">
+
+        <div class="special-req">
+            <label>💬 בקשות מיוחדות / הערות</label>
+            <textarea id="specialReq" placeholder="למשל: אנחנו עם ילדים קטנים, מעוניינים בפעילויות כשרות, יש לנו בעיית ניידות..."></textarea>
+        </div>
+
+        <div class="summary-badge" id="summaryBadge">
+            בחרו מקומות שמעניינים אתכם ואשלח לכם מסלול מותאם אישית 🗺️
+        </div>
+
+        <button class="footer-btn" onclick="sendToWhatsApp()">
+            📲 שלח לבניית מסלול בוואטסאפ
+        </button>
+
+    </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// הגדרות — ערוך כאן בלבד
+// ─────────────────────────────────────────────────────────────────────────────
+
+const MY_PHONE = "972523030015";
+
+// להוספת קטגוריה: העתק בלוק { id, icon, title, places:[...] } והוסף לרשימה.
+// להוספת מקום: הוסף "שם המקום 🏛️" לתוך מערך places של הקטגוריה הרצויה.
+const CATEGORIES = [
+    {
+        id: "must",
+        icon: "📍",
+        title: "אתרי חובה (Icons)",
+        places: [
+            "מגדל אייפל 🗼",
+            "מוזיאון הלובר 🖼️",
+            "שער הניצחון 🏛️",
+            "קתדרלת נוטרדאם ⛪",
+            "שאנז אליזה 🛍️",
+        ]
+    },
+    {
+        id: "art",
+        icon: "🎨",
+        title: "אמנות ותרבות",
+        places: [
+            "מוזיאון ד'אורסיי 🌻",
+            "מרכז פומפידו 🏗️",
+            "מוזיאון פיקאסו 🎭",
+            "המוזיאון היהודי (MAHJ) ✡️",
+            "ארמון ורסאי 👑 (טיול יום)",
+        ]
+    },
+    {
+        id: "hood",
+        icon: "🏘️",
+        title: "שכונות לסיור",
+        places: [
+            "מונמארטר — הבוהמית 🎪",
+            "לה מארה — יהודית/אופנתית 👗",
+            "הרובע הלטיני — סטודנטים 📚",
+            "תעלת סן מרטן — היפסטרית ☕",
+            "סן ז'רמן דה פרה — ספרותית 📖",
+        ]
+    },
+    {
+        id: "park",
+        icon: "🌳",
+        title: "פארקים ומנוחה",
+        places: [
+            "גני לוקסמבורג 🌷",
+            "גני טווילרי 🌿",
+            "פארק בוט שומון 🦆",
+            "פרומנד פלאנטה — הגשר הירוק 🌉",
+        ]
+    },
+    {
+        id: "food",
+        icon: "🍽️",
+        title: "אוכל וקניות",
+        places: [
+            "שוק אוכל צרפתי אותנטי 🧀",
+            "מסעדות כשרות במארה 🕍",
+            "גלריה לאפייט — קניות 🛍️",
+            "שוק פשפשים Saint-Ouen 🪴",
+        ]
+    },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// בניית ה-UI — אין צורך לגעת מכאן
+// ─────────────────────────────────────────────────────────────────────────────
+
+function buildCategories() {
+    const container = document.getElementById('categoriesContainer');
+    CATEGORIES.forEach(cat => {
+        const div = document.createElement('div');
+        div.className = 'category';
+        div.innerHTML = `
+            <div class="category-header">
+                <div class="category-title">${cat.icon} ${cat.title}</div>
+                <button class="select-all-btn" onclick="toggleAll(this,'${cat.id}')">בחר הכל</button>
+            </div>
+            <div class="items-wrap">
+                ${cat.places.map(place => `
+                    <div class="item" onclick="toggleItem(this)">
+                        <input type="checkbox" class="place ${cat.id}" value="${place.replace(/"/g,'&quot;')}">
+                        <label>${place}</label>
+                        <span class="check-icon">✓</span>
+                    </div>
+                `).join('')}
+            </div>`;
+        container.appendChild(div);
+    });
+}
+
+function toggleItem(el) {
+    if (el.tagName === 'INPUT') return;
+    const cb = el.querySelector('input[type="checkbox"]');
+    cb.checked = !cb.checked;
+    el.classList.toggle('selected', cb.checked);
+    updateProgress();
+}
+
+function toggleAll(btn, catId) {
+    const checkboxes = document.querySelectorAll('.place.' + catId);
+    const allChecked = [...checkboxes].every(cb => cb.checked);
+    checkboxes.forEach(cb => {
+        cb.checked = !allChecked;
+        cb.closest('.item').classList.toggle('selected', !allChecked);
+    });
+    btn.textContent = allChecked ? 'בחר הכל' : 'בטל הכל';
+    updateProgress();
+}
+
+function updateProgress() {
+    const total    = document.querySelectorAll('.place').length;
+    const selected = document.querySelectorAll('.place:checked').length;
+    const pct      = total ? Math.round((selected / total) * 100) : 0;
+
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent =
+        selected === 0 ? 'טרם נבחרו מקומות'
+        : selected === 1 ? 'מקום אחד נבחר'
+        : selected + ' מקומות נבחרו';
+
+    document.getElementById('summaryBadge').textContent =
+        selected === 0
+        ? 'בחרו מקומות שמעניינים אתכם ואשלח לכם מסלול מותאם אישית 🗺️'
+        : `✅ נבחרו ${selected} מקומות — לחצו שלח ונבנה יחד את המסלול!`;
+}
+
+function sendToWhatsApp() {
+    const name      = document.getElementById('userName').value.trim();
+    const arrival   = document.getElementById('arrivalDate').value;
+    const departure = document.getElementById('departureDate').value;
+    const group     = document.getElementById('groupSize').value;
+    const budget    = document.getElementById('budget').value;
+    const special   = document.getElementById('specialReq').value.trim();
+    const checked   = document.querySelectorAll('.place:checked');
+
+    if (!name)            { alert('בבקשה רשמו את שמכם'); return; }
+    if (!checked.length)  { alert('בבקשה בחרו לפחות מקום אחד'); return; }
+
+    let msg = `היי! אני ${name} ואני מעוניין/ת בבניית מסלול לפריז 🇫🇷\n\n`;
+
+    if (arrival)   msg += `📅 הגעה: ${fmtDate(arrival)}\n`;
+    if (departure) msg += `📅 עזיבה: ${fmtDate(departure)}\n`;
+    if (group)     msg += `👥 מטיילים: ${group}\n`;
+    if (budget)    msg += `💶 תקציב: ${budget}\n`;
+
+    msg += `\n📍 המקומות שבחרתי:\n`;
+    checked.forEach((cb, i) => { msg += `${i + 1}. ${cb.value}\n`; });
+
+    if (special) msg += `\n💬 הערות: ${special}`;
+    msg += `\n\nמחכה למסלול שלכם! תודה 🙏`;
+
+    window.open(`https://wa.me/${MY_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function fmtDate(s) {
+    if (!s) return '';
+    const [y, m, d] = s.split('-');
+    return `${d}/${m}/${y}`;
+}
+
+buildCategories();
+</script>
+
+</body>
+</html>
